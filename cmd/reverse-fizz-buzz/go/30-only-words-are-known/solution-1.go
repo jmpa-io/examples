@@ -25,6 +25,11 @@ func splitPascalCase(s string) (out []string) {
 	return out
 }
 
+// SolutionV1 is a placeholder — implementation not yet complete.
+func SolutionV1(_ []string) []string {
+	return nil
+}
+
 // generateFizzBuzz is a helper to generate a fizz buzz slice!
 func generateFizzBuzz(divisors []int, words []string, n int) (out []string) {
 
@@ -40,11 +45,6 @@ func generateFizzBuzz(divisors []int, words []string, n int) (out []string) {
 			}
 		}
 
-		// // if no words were appended to the line, add the number itself.
-		// if line == "" {
-		// 	line = fmt.Sprint(i)
-		// }
-
 		// skip numbers from being added to the output.
 		if line == "" {
 			continue
@@ -56,25 +56,3 @@ func generateFizzBuzz(divisors []int, words []string, n int) (out []string) {
 	return out
 }
 
-// func SolutionV1(A []string) []string {
-//
-// 	// count words.
-// 	counter := make(map[string]bool)
-// 	for _, a := range A {
-// 		for _, word := range splitPascalCase(a) {
-// 			counter[word] = true
-// 		}
-// 	}
-//
-// 	// determine words slice.
-// 	var words []string
-// 	for word := range counter {
-// 		words = append(words, word)
-// 	}
-//
-// 	fmt.Println(counter)
-//
-// 	fmt.Println(generateFizzBuzz([]int{3, 5}, words, 100))
-//
-// 	return []string{}
-// }
