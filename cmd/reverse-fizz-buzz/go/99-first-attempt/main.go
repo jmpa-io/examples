@@ -29,7 +29,7 @@ func main() {
 			fmt.Println(notSetErr)
 		}
 		fmt.Fprintf(os.Stderr, "Failed to setup the handler: %v; Exiting...\n", err)
-		os.Exit(-1)
+		os.Exit(1)
 	}
 
 	// setup logger.
@@ -49,7 +49,7 @@ func main() {
 			"Failed to setup logger: %q is not a valid log level; Exiting...\n",
 			h.LogLevel,
 		)
-		os.Exit(-1)
+		os.Exit(1)
 	}
 	h.logger = slog.New(slog.NewJSONHandler(os.Stdout, &slog.HandlerOptions{
 		Level: logLevel,

@@ -1,5 +1,5 @@
-module github.com/jmpa-io/challenges/reverse-fizz-buzz
+module github.com/jmpa-io/examples/cmd/reverse-fizz-buzz/go/99-first-attempt
 
-go 1.23.1
+go 1.25.0
 
 require go-simpler.org/env v0.12.0

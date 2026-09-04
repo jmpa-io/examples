@@ -1,7 +1,6 @@
 package main
 
 import (
-	"fmt"
 	"regexp"
 	"unicode"
 )
@@ -50,13 +49,10 @@ func SolutionV2(A []string) []int {
 		}
 	}
 
-	fmt.Println(len(A))
-
 	// determine divisors.
 	divisors := make(map[string]int)
 	for word, count := range counter {
 		divisors[word] = len(A) / count
-		fmt.Printf("-- %s %v\n", word, count)
 	}
 
 	// build output.

@@ -33,7 +33,7 @@ func (h *handler) run(ctx context.Context) {
 	// check if testdata directory exists.
 	if _, err := os.Stat(h.TestdataDir); err != nil {
 		h.logger.Error("The testdata directory doesn't exist", "directory", h.TestdataDir)
-		os.Exit(-1)
+		os.Exit(1)
 	}
 
 	// recursively discover testdata files.
@@ -70,7 +70,7 @@ func (h *handler) run(ctx context.Context) {
 			"error",
 			err,
 		)
-		os.Exit(-1)
+		os.Exit(1)
 	}
 	h.logger.Debug("Successfully discovered input files", "count", len(files))
 
@@ -95,7 +95,7 @@ func (h *handler) run(ctx context.Context) {
 
 	// stop if any errors are found.
 	if len(errs) > 0 {
-		os.Exit(-1)
+		os.Exit(1)
 	}
 
 	// do the goods!
@@ -216,7 +216,7 @@ func readInputFile(
 	// read file contents.
 	b, err := os.ReadFile(file)
 	if err != nil {
-		return inputFile{}, fmt.Errorf("failed to read file: %v", err)
+		return inputFile{}, fmt.Errorf("failed to read file: %w", err)
 	}
 
 	// break file contents into lines + remove any empty lines.
@@ -224,20 +224,18 @@ func readInputFile(
 		return r == '\n'
 	})
 
-	fmt.Println(len(lines))
-
 	infile.wordCount, infile.totalSize, err = parseInputFileHeader(
 		ctx,
 		expectedColumnsInHeader,
 		lines[0],
 	)
 	if err != nil {
-		return inputFile{}, fmt.Errorf("failed to parse header of input file: %v", err)
+		return inputFile{}, fmt.Errorf("failed to parse header of input file: %w", err)
 	}
 
 	infile.wordList, err = parseInputWordList(ctx, infile.wordCount, lines[1:])
 	if err != nil {
-		return inputFile{}, fmt.Errorf("failed to parse wordlist in input file: %v", err)
+		return inputFile{}, fmt.Errorf("failed to parse wordlist in input file: %w", err)
 	}
 
 	return infile, err
