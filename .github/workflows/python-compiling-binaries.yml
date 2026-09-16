@@ -7,6 +7,14 @@ on:
       - 'Makefile*'
       - 'cmd/python-compiling-binaries/*'
       - 'cmd/python-compiling-binaries/requirements*.txt'
+  workflow_dispatch:
+  repository_dispatch:
+    types: [update-cicd]
+
+permissions:
+  id-token: write
+  contents: read
+  actions: read
 
 jobs:
   build:
