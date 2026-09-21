@@ -1,0 +1,33 @@
+---
+name: Go - Tests
+on:
+  push:
+    paths:
+      - '.github/workflows/go-tests.yml'
+      - 'Makefile*'
+      - 'cmd/**/*.go'
+      - 'go.mod'
+      - 'go.sum'
+  workflow_dispatch:
+  repository_dispatch:
+    types: [update-cicd]
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check-out repository
+        uses: actions/checkout@v4
+
+      - name: Setup Go
+        uses: actions/setup-go@v5
+        with:
+          go-version-file: go.mod
+          cache: true
+
+      - name: Run tests
+        run: go test ./...

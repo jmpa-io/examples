@@ -10,6 +10,12 @@ build-image-%: cmd/%/Dockerfile
 
 ---: ## ---
 
+# No race detector — OOMs on this machine.
+GO_TEST_ARGS := -short -coverprofile=dist/coverage.txt -covermode=atomic -vet=off
+
+# No src/ directory in this repo.
+PYTHON_COV_ARGS :=
+
 # Includes the common Makefile.
 # NOTE: this recursively goes back and finds the `.git` directory and assumes
 # this is the root of the project. This could have issues when this assumtion
