@@ -1,0 +1,5 @@
+root/sub
+root/sub/deep
+root/sub/deep/file1.txt
+root/sub/deep/file2.txt
+root/other/file3.txt

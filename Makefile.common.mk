@@ -692,20 +692,22 @@ $(OUTPUT_DIR)/coverage.txt: # Generates the $(OUTPUT_DIR)/coverage.txt file.
 $(OUTPUT_DIR)/coverage.txt: # PLEASE NOTE: Adding this target to PHONY will generate this
 $(OUTPUT_DIR)/coverage.txt: #              file every time this target is called.
 $(OUTPUT_DIR)/coverage.txt: #              Otherwise `make clean` will have to be run.
+GO_TEST_ARGS ?= \
+	-short \
+	-coverprofile=$(OUTPUT_DIR)/coverage.txt \
+	-covermode=atomic \
+	-race \
+	-vet=off
+
 $(OUTPUT_DIR)/coverage.txt: $(OUTPUT_DIR)
 	@test -z "$(CI)" || echo "##[group]Unit tests for Go."
 ifeq ($(GO_FILES),)
 	@echo "No Go files found to test or generate code-coverage."
 else
 	@go version
-	CGO_ENABLED=1 go test \
-		-short \
-		-coverprofile=$@ \
-		-covermode=atomic \
-		-race \
-		-vet=off \
-		./...
+	CGO_ENABLED=1 go test $(GO_TEST_ARGS) ./...
 endif
+	@touch $@
 	@test -z "$(CI)" || echo "##[endgroup]"
 
 PHONY += test-go \
@@ -717,6 +719,12 @@ PHONY += test-go \
 
 test-py: ## Runs Python tests.
 test-py: $(OUTPUT_DIR)/coverage.xml
+PYTHON_COV_ARGS ?= \
+	--cov=src \
+	--cov-config=$(shell while [ ! -d .git ]; do cd ..; done; pwd)/.coveragerc \
+	--cov-report=xml:$(OUTPUT_DIR)/coverage.xml \
+	--cov-report=term
+
 $(OUTPUT_DIR)/coverage.xml: # Generates the $(OUTPUT_DIR)/coverage.xml file.
 $(OUTPUT_DIR)/coverage.xml: # PLEASE NOTE: Adding this target to PHONY will generate this
 $(OUTPUT_DIR)/coverage.xml: #              file every time this target is called.
@@ -730,12 +738,10 @@ else
 	$(PYTHON) -m pytest \
 		-v \
 		--tb=short \
-		--cov=src \
-		--cov-config=$(shell while [ ! -d .git ]; do cd ..; done; pwd)/.coveragerc \
-		--cov-report=xml:$@ \
-		--cov-report=term \
+		$(PYTHON_COV_ARGS) \
 		.
 endif
+	@touch $@
 	@test -z "$(CI)" || echo "##[endgroup]"
 
 PHONY += test-py \
