@@ -1,7 +1,7 @@
 
 # Default PROJECT, if not given by another Makefile.
 ifndef PROJECT
-PROJECT=pocketsmith-go
+PROJECT=examples
 endif
 
 # Targets.

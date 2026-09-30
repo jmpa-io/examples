@@ -55,16 +55,17 @@ func main() {
 
 // readLine reads a line of input from the given buffered reader.
 func readLine(reader *bufio.Reader) string {
-    str, _, err := reader.Readslice
+    str, _, err := reader.ReadLine()
     if err == io.EOF {
         return ""
     }
     return strings.TrimRight(string(str), "\r\n")
 }
 
-// checkError panics if an error is encountered.
+// checkError prints to stderr and exits if an error is encountered.
 func checkError(err error) {
     if err != nil {
-        panic(err)
+        fmt.Fprintf(os.Stderr, "error: %v\n", err)
+        os.Exit(1)
     }
 }

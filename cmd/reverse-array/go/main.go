@@ -10,26 +10,21 @@ import (
 )
 
 func reverseArray(a []int32) []int32 {
-
-    // common.
     for i, j := 0, len(a)-1; i < j; i, j = i+1, j-1 {
         a[i], a[j] = a[j], a[i]
     }
     return a
-
-    // idiomatic.
-    n := len(a)
-    out := make([]int32, len(a))
-    for i := 0; i < n; i++ {
-        out[i] = a[n-1-i]
-    }
-    return out
 }
 
 func main() {
     reader := bufio.NewReaderSize(os.Stdin, 16 * 1024 * 1024)
 
-    stdout, err := os.Create(os.Getenv("OUTPUT_PATH"))
+    outputPath := os.Getenv("OUTPUT_PATH")
+    if outputPath == "" {
+        fmt.Fprintln(os.Stderr, "error: OUTPUT_PATH environment variable is not set")
+        os.Exit(1)
+    }
+    stdout, err := os.Create(outputPath)
     checkError(err)
 
     defer stdout.Close()
@@ -76,7 +71,8 @@ func readLine(reader *bufio.Reader) string {
 
 func checkError(err error) {
     if err != nil {
-        panic(err)
+        fmt.Fprintf(os.Stderr, "error: %v\n", err)
+        os.Exit(1)
     }
 }
 
