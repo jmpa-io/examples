@@ -33,7 +33,12 @@ func diagonalDifference(arr [][]int32) int32 {
 func main() {
     reader := bufio.NewReaderSize(os.Stdin, 16 * 1024 * 1024)
 
-    stdout, err := os.Create(os.Getenv("OUTPUT_PATH"))
+    outputPath := os.Getenv("OUTPUT_PATH")
+    if outputPath == "" {
+        fmt.Fprintln(os.Stderr, "error: OUTPUT_PATH environment variable is not set")
+        os.Exit(1)
+    }
+    stdout, err := os.Create(outputPath)
     checkError(err)
 
     defer stdout.Close()
@@ -81,7 +86,8 @@ func readLine(reader *bufio.Reader) string {
 
 func checkError(err error) {
     if err != nil {
-        panic(err)
+        fmt.Fprintf(os.Stderr, "error: %v\n", err)
+        os.Exit(1)
     }
 }
 

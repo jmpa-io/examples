@@ -1,7 +1,6 @@
 package main
 
 import (
-	"fmt"
 	"log/slog"
 	"os"
 	"path/filepath"
@@ -60,23 +59,10 @@ func init() {
 	}
 	if err := filepath.Walk("testdata", walker); err != nil {
 		logger.Error("Failed to discover testdata files", "error", err)
-		os.Exit(-1)
+		os.Exit(1)
 	}
 }
 
 func Test_run(t *testing.T) {
-
-	// setup test-cases.
-	tests := map[string]struct {
-		want map[string]int
-	}{}
-
-	// run tests.
-	for name, tt := range tests {
-		t.Run(name, func(t *testing.T) {
-			t.Error("oh")
-			fmt.Println(tt.want)
-			fmt.Println("getting here!")
-		})
-	}
+	// placeholder: no test cases defined yet.
 }
