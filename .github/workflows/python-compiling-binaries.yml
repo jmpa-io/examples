@@ -5,8 +5,7 @@ on:
     paths:
       - '.github/workflows/python-compiling-binaries.yml'
       - 'Makefile*'
-      - 'cmd/python-compiling-binaries/*'
-      - 'cmd/python-compiling-binaries/requirements*.txt'
+      - 'cmd/compiling-binaries/python/**'
   workflow_dispatch:
   repository_dispatch:
     types: [update-cicd]
@@ -48,7 +47,7 @@ jobs:
           # many more Nuitka options available, see action doc, but it's best
           # to use nuitka-project: options in your code, so e.g. you can make
           # a difference for macOS and create an app bundle there.
-          onefile: true
+          mode: onefile
 
       - name: Upload Artifacts
         uses: actions/upload-artifact@v7
